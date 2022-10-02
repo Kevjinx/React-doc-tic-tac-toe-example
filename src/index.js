@@ -70,7 +70,8 @@ class Board extends React.Component {
     //call slice() to create a shallow copy of squares to modify instead of modifying the existing array
     //this allows us to "time travel" to review previous moves
     //plus we can detect changes much easier with immutable objects
-    if (!this.state.squares[i]) {
+    //!! need to modify
+    if (!this.state.squares[i] || !calculateWinner(this.state.squares)) {
       const squares = this.state.squares.slice();
 
       squares[i] = this.state.xIsNext ? 'X' : 'O';
