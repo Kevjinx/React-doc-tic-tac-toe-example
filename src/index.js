@@ -42,10 +42,9 @@ class Board extends React.Component {
     //this allows us to "time travel" to review previous moves
     //plus we can detect changes much easier with immutable objects
     const squares = this.state.squares.slice();
-    if(this.state.xIsNext) {
-      squares[i] = 'X';
-    }
-    else squares[i] = 'O'
+
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+
     this.setState({
       squares: squares,
       xIsNext: !this.state.xIsNext,
