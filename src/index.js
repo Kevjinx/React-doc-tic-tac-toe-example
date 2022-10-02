@@ -2,18 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-class Square extends React.Component {
+// class Square extends React.Component {
 
-  render() {
-    return (
-      <button
-        className="square"
-        onClick={() => this.props.onClick()}
-			>
-        {this.props.value}
-      </button>
-    );
-  }
+//   render() {
+//     return (
+//       <button
+//         className="square"
+//         onClick={() => this.props.onClick()}
+// 			>
+//         {this.props.value}
+//       </button>
+//     );
+//   }
+// }
+
+const Square = props => {
+  return (
+    <button
+      className='square'
+      //!! review difference between functional component and class component
+      onClick={props.onClick}>
+      {props.value}
+    </button>
+  )
 }
 
 class Board extends React.Component {
@@ -27,6 +38,8 @@ class Board extends React.Component {
 
   handleClick(i) {
     //call slice() to create a shallow copy of squares to modify instead of modifying the existing array
+    //this allows us to "time travel" to review previous moves
+    //plus we can detect changes much easier with immutable objects
     const squares = this.state.squares.slice();
     squares[i] = 'X';
     this.setState({squares: squares})
