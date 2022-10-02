@@ -44,6 +44,7 @@ const calculateWinner = squares => {
 
 }
 
+//?? how to prevent onClick happening second time?
 const Square = props => {
   return (
     <button
@@ -69,14 +70,16 @@ class Board extends React.Component {
     //call slice() to create a shallow copy of squares to modify instead of modifying the existing array
     //this allows us to "time travel" to review previous moves
     //plus we can detect changes much easier with immutable objects
-    const squares = this.state.squares.slice();
+    if (!this.state.squares[i]) {
+      const squares = this.state.squares.slice();
 
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
+      squares[i] = this.state.xIsNext ? 'X' : 'O';
 
-    this.setState({
-      squares: squares,
-      xIsNext: !this.state.xIsNext,
-    })
+      this.setState({
+        squares: squares,
+        xIsNext: !this.state.xIsNext,
+      })
+    }
   }
 
   renderSquare(i) {
