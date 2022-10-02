@@ -32,8 +32,9 @@ class Board extends React.Component {
     super(props);
     // initializing board state
     this.state = {
-      squares: Array(9).fill(null)
-    }
+      squares: Array(9).fill(null),
+      xIsNext: true,
+    };
   }
 
   handleClick(i) {
@@ -41,8 +42,14 @@ class Board extends React.Component {
     //this allows us to "time travel" to review previous moves
     //plus we can detect changes much easier with immutable objects
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({squares: squares})
+    if(this.state.xIsNext) {
+      squares[i] = 'X';
+    }
+    else squares[i] = 'O'
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    })
   }
 
   renderSquare(i) {
@@ -55,7 +62,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const status = 'Next player: X';
+    const status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
 
     return (
       <div>
