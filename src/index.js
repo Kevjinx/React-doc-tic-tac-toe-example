@@ -58,28 +58,13 @@ const Square = props => {
 
 class Board extends React.Component {
 
-  handleClick(i) {
-    //call slice() to create a shallow copy of squares to modify instead of modifying the existing array
-    //this allows us to "time travel" to review previous moves
-    //plus we can detect changes much easier with immutable objects
-    //!! need to modify
-    if (!this.state.squares[i] || !calculateWinner(this.state.squares)) {
-      const squares = this.state.squares.slice();
 
-      squares[i] = this.state.xIsNext ? 'X' : 'O';
-
-      this.setState({
-        squares: squares,
-        xIsNext: !this.state.xIsNext,
-      })
-    }
-  }
 
   renderSquare(i) {
     return (
       <Square
         value={this.props.squares[i]}
-        onClick={() => this.props.handleClick(i)}
+        onClick={() => this.props.onClick(i)}
       />
     );
   }
@@ -91,7 +76,6 @@ class Board extends React.Component {
 
     return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -120,6 +104,23 @@ class Game extends React.Component {
         squares: Array(9).fill(null),
       }]
     }
+  }
+
+  handleClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice()
+    if (squares[i] || calculateWinner(squares)) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+
+    this.setState({
+      history: history.concat([{
+        squares: squares,
+      }]),
+      xIsNext: !this.state.xIsNext,
+    })
   }
 
 
